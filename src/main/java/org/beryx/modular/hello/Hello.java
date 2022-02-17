@@ -16,7 +16,7 @@ public class Hello {
 
 		final LazySodiumJava lazy = new LazySodiumJava(
 				// Forces loading from the bundled version to test
-				// the modified resource-loader library.
+				// the modified resource-loade`r library.
 				new SodiumJava(LibraryLoader.Mode.BUNDLED_ONLY));
 
 		String hashed = lazy.cryptoGenericHash("Hello, modular Java!");

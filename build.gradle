@@ -30,7 +30,7 @@ dependencies {
     }
     // Modified resource-loader that may load from class loader before attempting
     // other methods.
-    implementation files('libs/resource-loader-2.0.2-cl.jar')
+    implementation files('libs/resource-loader-2.0.2.jar')
 
     implementation 'net.java.dev.jna:jna:5.9.0'
     implementation 'org.slf4j:slf4j-api:1.7.36'
