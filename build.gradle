@@ -1,6 +1,8 @@
 plugins {
-    id "org.beryx.jlink" version "2.24.1"
-    id "org.javamodularity.moduleplugin" version "1.8.9"
+    id "org.beryx.jlink" version "2.24.4"
+    id 'application'
+    // This is also imported by default when using the Open JavaFx gradle plugin
+    id "org.javamodularity.moduleplugin" version "1.8.10"
 }
 
 repositories {
@@ -11,7 +13,27 @@ sourceCompatibility = 11
 targetCompatibility = 11
 
 dependencies {
-    implementation 'org.slf4j:slf4j-api:1.7.25'
+
+    //
+    // Comment out
+    // `exclude module: 'resource-loader'`
+    //  and
+    // 'implementation files('libs/resource-loader-2.0.2-cl.jar')'
+    // to see the original resource-loader fails to load the bundled lazysodium
+    // library when run from Java module.
+    //
+
+    implementation('com.goterl:lazysodium-java:5.1.1') {
+        // Exclude resource-loader transitive dependency to test the modified
+        // version.
+        exclude module: 'resource-loader'
+    }
+    // Modified resource-loader that may load from class loader before attempting
+    // other methods.
+    implementation files('libs/resource-loader-2.0.2-cl.jar')
+
+    implementation 'net.java.dev.jna:jna:5.9.0'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'javax.xml.bind:jaxb-api:2.3.0'
 }
@@ -32,10 +54,12 @@ jlink {
     mergedModule {
         requires 'java.naming'
         requires 'java.xml'
+        requires 'java.logging'
     }
     launcher{
         name = 'hello'
         jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+
     }
     jpackage {
         if (org.gradle.internal.os.OperatingSystem.current().windows) {
