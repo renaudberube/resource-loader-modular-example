@@ -18,7 +18,7 @@ dependencies {
     // Comment out
     // `exclude module: 'resource-loader'`
     //  and
-    // 'implementation files('libs/resource-loader-2.0.2-cl.jar')'
+    // 'implementation files('libs/resource-loader-2.0.2.jar')'
     // to see the original resource-loader fails to load the bundled lazysodium
     // library when run from Java module.
     //
